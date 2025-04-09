@@ -3,5 +3,6 @@
 import dynamic from "next/dynamic";
 
 export const components = {
+  monster_listing_slice: dynamic(() => import("./MonsterListingSlice")),
   rich_text: dynamic(() => import("./RichText")),
 };

@@ -4,6 +4,40 @@ import type * as prismic from "@prismicio/client";
 
 type Simplify<T> = { [KeyType in keyof T]: T[KeyType] };
 
+type HomePageDocumentDataSlicesSlice = MonsterListingSliceSlice;
+
+/**
+ * Content for Home page documents
+ */
+interface HomePageDocumentData {
+  /**
+   * Slice Zone field in *Home page*
+   *
+   * - **Field Type**: Slice Zone
+   * - **Placeholder**: *None*
+   * - **API ID Path**: home_page.slices[]
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#slices
+   */
+  slices: prismic.SliceZone<HomePageDocumentDataSlicesSlice>;
+}
+
+/**
+ * Home page document from Prismic
+ *
+ * - **API ID**: `home_page`
+ * - **Repeatable**: `false`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type HomePageDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithoutUID<
+    Simplify<HomePageDocumentData>,
+    "home_page",
+    Lang
+  >;
+
 /**
  * Content for Monster documents
  */
@@ -267,7 +301,56 @@ export type ProductDocument<Lang extends string = string> =
     Lang
   >;
 
-export type AllDocumentTypes = MonsterDocument | PageDocument | ProductDocument;
+export type AllDocumentTypes =
+  | HomePageDocument
+  | MonsterDocument
+  | PageDocument
+  | ProductDocument;
+
+/**
+ * Primary content in *MonsterListingSlice → Default → Primary*
+ */
+export interface MonsterListingSliceSliceDefaultPrimary {
+  /**
+   * Title field in *MonsterListingSlice → Default → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: monster_listing_slice.default.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  title: prismic.KeyTextField;
+}
+
+/**
+ * Default variation for MonsterListingSlice Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type MonsterListingSliceSliceDefault = prismic.SharedSliceVariation<
+  "default",
+  Simplify<MonsterListingSliceSliceDefaultPrimary>,
+  never
+>;
+
+/**
+ * Slice variation for *MonsterListingSlice*
+ */
+type MonsterListingSliceSliceVariation = MonsterListingSliceSliceDefault;
+
+/**
+ * MonsterListingSlice Shared Slice
+ *
+ * - **API ID**: `monster_listing_slice`
+ * - **Description**: MonsterListingSlice
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type MonsterListingSliceSlice = prismic.SharedSlice<
+  "monster_listing_slice",
+  MonsterListingSliceSliceVariation
+>;
 
 /**
  * Primary content in *RichText → Default → Primary*
@@ -335,6 +418,9 @@ declare module "@prismicio/client" {
 
   namespace Content {
     export type {
+      HomePageDocument,
+      HomePageDocumentData,
+      HomePageDocumentDataSlicesSlice,
       MonsterDocument,
       MonsterDocumentData,
       PageDocument,
@@ -343,6 +429,10 @@ declare module "@prismicio/client" {
       ProductDocument,
       ProductDocumentData,
       AllDocumentTypes,
+      MonsterListingSliceSlice,
+      MonsterListingSliceSliceDefaultPrimary,
+      MonsterListingSliceSliceVariation,
+      MonsterListingSliceSliceDefault,
       RichTextSlice,
       RichTextSliceDefaultPrimary,
       RichTextSliceVariation,
