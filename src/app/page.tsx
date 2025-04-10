@@ -72,7 +72,7 @@ export default async function Index(props: HomePageProps) {
   }));
 
   return (
-    <>
+    <div className="px-4 sm:px-4">
       {/* 2) SliceZone for your "home" page content */}
       <SliceZone slices={home.data.slices} components={components} />
 
@@ -100,6 +100,6 @@ export default async function Index(props: HomePageProps) {
           <MonsterCard key={monster.id} monster={monster} />
         ))}
       </section>
-    </>
+    </div>
   );
 }

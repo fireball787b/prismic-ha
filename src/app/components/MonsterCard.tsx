@@ -11,8 +11,7 @@ interface MonsterCardProps {
 
 export function MonsterCard({ monster }: MonsterCardProps) {
   return (
-    <div
-      className="relative w-full h-96 overflow-hidden rounded-xl shadow-xl group [perspective:1000px]">
+    <div className="relative w-full h-96 overflow-hidden rounded-xl shadow-xl group [perspective:1000px]">
       {/* The 'inner' container that flips on hover */}
       <div
         className="
@@ -33,14 +32,14 @@ export function MonsterCard({ monster }: MonsterCardProps) {
           "
         >
           {monster.card_image && typeof monster.card_image === "string" && (
-              <Image
-                  src={monster.card_image}
-                  alt={monster.name ?? "Unknown monster"}
-                  width={360}
-                  height={360}
-                  className="w-full h-full object-cover rounded-xl"
-                  priority
-              />
+            <Image
+              src={monster.card_image}
+              alt={monster.name ?? "Unknown monster"}
+              width={360}
+              height={360}
+              className="w-full h-full object-cover rounded-xl"
+              priority
+            />
           )}
           {/* Optional overlay name */}
           <div
@@ -89,7 +88,8 @@ export function MonsterCard({ monster }: MonsterCardProps) {
               font-bold
               py-2
               px-4
-              rounded-full">
+              rounded-full"
+          >
             Learn more
           </Link>
         </div>

@@ -24,9 +24,7 @@
                   "label": "product",
                   "select": "document",
                   "repeat": false,
-                  "customtypes": [
-                    "product"
-                  ]
+                  "customtypes": ["product"]
                 }
               }
             }
