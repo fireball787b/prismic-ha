@@ -1,8 +1,8 @@
 import { PrismicPreview } from "@prismicio/next";
 import { repositoryName } from "@/prismicio";
-import './styles.css';
-import {Header} from "@/app/components/Header";
-import {Footer} from "@/app/components/Footer";
+import "./styles.css";
+import { Header } from "@/app/components/Header";
+import { Footer } from "@/app/components/Footer";
 
 export default function RootLayout({
   children,
@@ -13,13 +13,10 @@ export default function RootLayout({
     <html lang="en">
       <body className="bg-[#fefaf6] text-gray-900">
         <Header />
-        <main>
-            {children}
-        </main>
+        <main>{children}</main>
         <PrismicPreview repositoryName={repositoryName} />
-        <Footer/>
+        <Footer />
       </body>
-
     </html>
   );
 }

@@ -4,13 +4,14 @@ import { SliceZone } from "@prismicio/react";
 
 import { createClient } from "@/prismicio";
 import { components } from "@/slices";
-import {MonsterCard} from "@/app/components/MonsterCard";
-import {Monster} from "@/app/types/Monster"; // your Slice components map
+import { MonsterCard } from "@/app/components/MonsterCard";
+import { Monster } from "@/app/types/Monster"; // your Slice components map
+import * as prismic from "@prismicio/client";
 
-/**
- * Dynamically generate metadata (title, description, etc.)
- * from the home document in Prismic.
- */
+interface HomePageProps {
+  searchParams: { [key: string]: string | string[] | undefined };
+}
+
 export async function generateMetadata(): Promise<Metadata> {
   const client = createClient();
   const home = await client.getByUID("page", "home"); // or getSingle("home_page") if that's your custom type
@@ -29,14 +30,10 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-/**
- * The main homepage route. Renders:
- * 1) A global <Navigation>
- * 2) The SliceZone for the "home" page
- * 3) A listing of all "monster" documents from Prismic
- * 4) Another <Navigation> if desired
- */
-export default async function Index() {
+export default async function Index({ searchParams }: HomePageProps) {
+  const searchValue =
+    typeof searchParams.q === "string" ? searchParams.q.trim() : "";
+
   // 1. Initialize Prismic client
   const client = createClient();
 
@@ -46,10 +43,19 @@ export default async function Index() {
 
   // 3. Fetch all "monster" docs, ordered however you'd like
   //    For example, by name or by creation date
-  const documents = await client.getAllByType("monster", {
-    orderings: [{ field: "my.monster.name", direction: "asc" }],
-    pageSize: 100,
-  });
+  let documents;
+  if (searchValue) {
+    documents = await client.getAllByType("monster", {
+      filters: [prismic.filter.fulltext("my.monster.name", searchValue)],
+      orderings: [{ field: "my.monster.name", direction: "asc" }],
+      pageSize: 100,
+    });
+  } else {
+    documents = await client.getAllByType("monster", {
+      orderings: [{ field: "my.monster.name", direction: "asc" }],
+      pageSize: 100,
+    });
+  }
 
   const monsters: Monster[] = documents.map((doc) => ({
     id: doc.id,
@@ -65,17 +71,34 @@ export default async function Index() {
   }));
 
   return (
-      <>
-        {/* 2) SliceZone for your "home" page content */}
-        <SliceZone slices={home.data.slices} components={components} />
+    <>
+      {/* 2) SliceZone for your "home" page content */}
+      <SliceZone slices={home.data.slices} components={components} />
 
-        {/* 3) Monster listing section */}
-        <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 max-w-4xl w-full mx-auto my-8">
-          {monsters.map((monster) => (
-              <MonsterCard key={monster.id} monster={monster} />
-          ))}
-        </section>
+      <form className="max-w-md mx-auto my-6" action="/" method="GET">
+        <div className="flex">
+          <input
+            type="text"
+            name="q"
+            className="border border-gray-300 rounded-l px-3 py-2 w-full"
+            placeholder="Search monsters..."
+            defaultValue={searchValue}
+          />
+          <button
+            type="submit"
+            className="bg-yellow-800 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded-r"
+          >
+            Search
+          </button>
+        </div>
+      </form>
 
-      </>
+      {/* 3) Monster listing section */}
+      <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 max-w-4xl w-full mx-auto my-8">
+        {monsters.map((monster) => (
+          <MonsterCard key={monster.id} monster={monster} />
+        ))}
+      </section>
+    </>
   );
 }
