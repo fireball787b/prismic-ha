@@ -1,0 +1,39 @@
+{
+  "id": "related_products",
+  "type": "SharedSlice",
+  "name": "RelatedProducts",
+  "description": "RelatedProducts",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default",
+      "imageUrl": "",
+      "primary": {
+        "products": {
+          "type": "Group",
+          "config": {
+            "label": "products",
+            "repeat": true,
+            "fields": {
+              "product": {
+                "type": "Link",
+                "config": {
+                  "label": "product",
+                  "select": "document",
+                  "repeat": false,
+                  "customtypes": [
+                    "product"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}

@@ -4,7 +4,7 @@ import type * as prismic from "@prismicio/client";
 
 type Simplify<T> = { [KeyType in keyof T]: T[KeyType] };
 
-type HomePageDocumentDataSlicesSlice = MonsterListingSliceSlice;
+type HomePageDocumentDataSlicesSlice = never;
 
 /**
  * Content for Home page documents
@@ -37,6 +37,8 @@ export type HomePageDocument<Lang extends string = string> =
     "home_page",
     Lang
   >;
+
+type MonsterDocumentDataSlicesSlice = RelatedProductsSlice;
 
 /**
  * Content for Monster documents
@@ -135,6 +137,17 @@ interface MonsterDocumentData {
    * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   summary: prismic.RichTextField;
+
+  /**
+   * Slice Zone field in *Monster*
+   *
+   * - **Field Type**: Slice Zone
+   * - **Placeholder**: *None*
+   * - **API ID Path**: monster.slices[]
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#slices
+   */
+  slices: prismic.SliceZone<MonsterDocumentDataSlicesSlice>;
 }
 
 /**
@@ -308,48 +321,65 @@ export type AllDocumentTypes =
   | ProductDocument;
 
 /**
- * Primary content in *MonsterListingSlice → Default → Primary*
+ * Item in *RelatedProducts → Default → Primary → products*
  */
-export interface MonsterListingSliceSliceDefaultPrimary {
+export interface RelatedProductsSliceDefaultPrimaryProductsItem {
   /**
-   * Title field in *MonsterListingSlice → Default → Primary*
+   * product field in *RelatedProducts → Default → Primary → products*
    *
-   * - **Field Type**: Text
+   * - **Field Type**: Content Relationship
    * - **Placeholder**: *None*
-   * - **API ID Path**: monster_listing_slice.default.primary.title
-   * - **Documentation**: https://prismic.io/docs/field#key-text
+   * - **API ID Path**: related_products.default.primary.products[].product
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
-  title: prismic.KeyTextField;
+  product: prismic.ContentRelationshipField<"product">;
 }
 
 /**
- * Default variation for MonsterListingSlice Slice
+ * Primary content in *RelatedProducts → Default → Primary*
+ */
+export interface RelatedProductsSliceDefaultPrimary {
+  /**
+   * products field in *RelatedProducts → Default → Primary*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: related_products.default.primary.products[]
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */
+  products: prismic.GroupField<
+    Simplify<RelatedProductsSliceDefaultPrimaryProductsItem>
+  >;
+}
+
+/**
+ * Default variation for RelatedProducts Slice
  *
  * - **API ID**: `default`
  * - **Description**: Default
  * - **Documentation**: https://prismic.io/docs/slice
  */
-export type MonsterListingSliceSliceDefault = prismic.SharedSliceVariation<
+export type RelatedProductsSliceDefault = prismic.SharedSliceVariation<
   "default",
-  Simplify<MonsterListingSliceSliceDefaultPrimary>,
+  Simplify<RelatedProductsSliceDefaultPrimary>,
   never
 >;
 
 /**
- * Slice variation for *MonsterListingSlice*
+ * Slice variation for *RelatedProducts*
  */
-type MonsterListingSliceSliceVariation = MonsterListingSliceSliceDefault;
+type RelatedProductsSliceVariation = RelatedProductsSliceDefault;
 
 /**
- * MonsterListingSlice Shared Slice
+ * RelatedProducts Shared Slice
  *
- * - **API ID**: `monster_listing_slice`
- * - **Description**: MonsterListingSlice
+ * - **API ID**: `related_products`
+ * - **Description**: RelatedProducts
  * - **Documentation**: https://prismic.io/docs/slice
  */
-export type MonsterListingSliceSlice = prismic.SharedSlice<
-  "monster_listing_slice",
-  MonsterListingSliceSliceVariation
+export type RelatedProductsSlice = prismic.SharedSlice<
+  "related_products",
+  RelatedProductsSliceVariation
 >;
 
 /**
@@ -423,16 +453,18 @@ declare module "@prismicio/client" {
       HomePageDocumentDataSlicesSlice,
       MonsterDocument,
       MonsterDocumentData,
+      MonsterDocumentDataSlicesSlice,
       PageDocument,
       PageDocumentData,
       PageDocumentDataSlicesSlice,
       ProductDocument,
       ProductDocumentData,
       AllDocumentTypes,
-      MonsterListingSliceSlice,
-      MonsterListingSliceSliceDefaultPrimary,
-      MonsterListingSliceSliceVariation,
-      MonsterListingSliceSliceDefault,
+      RelatedProductsSlice,
+      RelatedProductsSliceDefaultPrimaryProductsItem,
+      RelatedProductsSliceDefaultPrimary,
+      RelatedProductsSliceVariation,
+      RelatedProductsSliceDefault,
       RichTextSlice,
       RichTextSliceDefaultPrimary,
       RichTextSliceVariation,

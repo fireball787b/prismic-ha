@@ -32,14 +32,16 @@ export function MonsterCard({ monster }: MonsterCardProps) {
             [backface-visibility:hidden]
           "
         >
-          <Image
-              src={monster.card_image}
-              alt={monster.name ?? "Unknown monster"}
-              width={360}
-              height={360}
-              className="w-full h-full object-cover rounded-xl"
-              priority // optionally preload on first view
-          />
+          {monster.card_image && typeof monster.card_image === "string" && (
+              <Image
+                  src={monster.card_image}
+                  alt={monster.name ?? "Unknown monster"}
+                  width={360}
+                  height={360}
+                  className="w-full h-full object-cover rounded-xl"
+                  priority
+              />
+          )}
           {/* Optional overlay name */}
           <div
             className="
@@ -87,9 +89,7 @@ export function MonsterCard({ monster }: MonsterCardProps) {
               font-bold
               py-2
               px-4
-              rounded-full
-            "
-          >
+              rounded-full">
             Learn more
           </Link>
         </div>

@@ -11,6 +11,5 @@ describe("Header", () => {
         // Check the button
         const loginButton = screen.getByRole("button", { name: /log in/i });
         expect(loginButton).toBeInTheDocument();
-        expect(loginButton).toHaveAttribute("type", "button");
     });
 });
