@@ -2,6 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Monster } from "@/app/types/Monster";
 
 interface MonsterCardProps {
@@ -31,10 +32,11 @@ export function MonsterCard({ monster }: MonsterCardProps) {
             [backface-visibility:hidden]
           "
         >
-          <img
-            src={monster.card_image}
-            alt={monster.name?.toString()}
-            className="w-full h-full object-cover"
+          <Image
+              src={monster.card_image}
+              alt={monster.name ?? "Unknown monster"}
+              className="w-full h-full object-cover rounded-xl"
+              priority // optionally preload on first view
           />
           {/* Optional overlay name */}
           <div

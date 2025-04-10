@@ -9,7 +9,7 @@ import { Monster } from "@/app/types/Monster"; // your Slice components map
 import * as prismic from "@prismicio/client";
 
 interface HomePageProps {
-  searchParams: { [key: string]: string | string[] | undefined };
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -30,7 +30,8 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default async function Index({ searchParams }: HomePageProps) {
+export default async function Index(props: HomePageProps) {
+  const searchParams = await props.searchParams;
   const searchValue =
     typeof searchParams.q === "string" ? searchParams.q.trim() : "";
 

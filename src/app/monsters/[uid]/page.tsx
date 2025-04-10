@@ -2,12 +2,11 @@ import { createClient } from "@/prismicio";
 import { Monster } from "@/app/types/Monster";
 import { notFound } from "next/navigation";
 import { PrismicRichText } from "@prismicio/react";
-type Params = Promise<{ uid: string }>
+import Image from "next/image";
 
-export default async function MonsterPage(props: { params: Params }) {
-  const params = await props.params;
-  const { uid } = params;
-  const client = createClient();
+export default async function MonsterPage({ params }: { params: Promise<{ uid: string }> }) {
+    const { uid } = await params;
+    const client = createClient();
 
   let doc;
   try {
@@ -51,10 +50,11 @@ export default async function MonsterPage(props: { params: Params }) {
 
       {/* Full image */}
       {monster.full_image && (
-        <img
-          src={monster.full_image}
-          className="w-full h-auto rounded-md mb-8 object-cover"
-        />
+          <Image
+              src={monster.full_image}
+              alt={monster.name ?? "Monster image"}
+              className="w-full h-auto rounded-md mb-8 object-cover"
+          />
       )}
 
       {/* Description */}
