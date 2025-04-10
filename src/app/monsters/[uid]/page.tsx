@@ -1,14 +1,11 @@
-import { createClient } from "@/prismicio"; // or your prismic client file
+import { createClient } from "@/prismicio";
 import { Monster } from "@/app/types/Monster";
 import { notFound } from "next/navigation";
 import { PrismicRichText } from "@prismicio/react";
+type Params = Promise<{ uid: string }>
 
-interface MonsterPageProps {
-  params: { uid: string };
-}
-
-// Next.js 13 server component
-export default async function MonsterPage({ params }: MonsterPageProps) {
+export default async function MonsterPage(props: { params: Params }) {
+  const params = await props.params;
   const { uid } = params;
   const client = createClient();
 

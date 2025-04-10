@@ -33,6 +33,7 @@ export function MonsterCard({ monster }: MonsterCardProps) {
         >
           <img
             src={monster.card_image}
+            alt={monster.name?.toString()}
             className="w-full h-full object-cover"
           />
           {/* Optional overlay name */}
