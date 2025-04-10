@@ -70,7 +70,6 @@ They are critical because:
 - Enhance responsive layout for mobile and tablet views.
 - Add thoughtful loading and error states across all pages.
 - Implement proper caching strategies to improve performance.
-- Fix the 404 Not Found page — image is currently not loading correctly.
 - implement login and stock
 - for some reason, intellij raises errors in the jest tests. I've fixed it today but for some reason after some change in the code
   it detects them as non-existant methods (toBeInTheDocument, toHaveAttribute, etc..) but you can run the tests without any problem
