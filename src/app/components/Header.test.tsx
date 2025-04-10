@@ -12,4 +12,5 @@ describe("Header", () => {
         const loginButton = screen.getByRole("button", { name: /log in/i });
         expect(loginButton).toBeInTheDocument();
     });
+
 });
