@@ -35,6 +35,8 @@ export function MonsterCard({ monster }: MonsterCardProps) {
           <Image
               src={monster.card_image}
               alt={monster.name ?? "Unknown monster"}
+              width={360}
+              height={360}
               className="w-full h-full object-cover rounded-xl"
               priority // optionally preload on first view
           />

@@ -1,4 +1,3 @@
-// app/components/MonsterCard.test.tsx
 import { render, screen } from "@testing-library/react";
 import { MonsterCard } from "./MonsterCard";
 import { Monster } from "@/app/types/Monster";
@@ -42,6 +41,6 @@ describe("MonsterCard", () => {
         expect(image).toBeInTheDocument();
 
         // Optionally check the src
-        expect(image).toHaveAttribute("src", "/fire-dragon.png");
+        expect(image).toHaveAttribute("src", expect.stringContaining("/fire-dragon.png"));
     });
 });

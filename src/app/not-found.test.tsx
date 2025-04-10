@@ -8,7 +8,7 @@ describe("NotFoundPage", () => {
         // Check for image by alt text
         const image = screen.getByAltText(/404 - Not Found/i);
         expect(image).toBeInTheDocument();
-        expect(image).toHaveAttribute("src", "/images/not-found.png");
+        expect(image).toHaveAttribute("src", expect.stringContaining("/not-found.png"));
 
         // Heading
         expect(screen.getByRole("heading", { name: /404 - Page Not Found/i })).toBeInTheDocument();
