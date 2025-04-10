@@ -15,6 +15,7 @@ export default async function ProductsPage({
     let doc;
     try {
         doc = await client.getByUID("product", uid);
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
         return notFound();
     }
